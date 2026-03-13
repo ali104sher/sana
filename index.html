@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Sana 🌙</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600&family=Raleway:ital,wght@0,200;0,300;0,400;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    :root {
+      --navy: #060d1f;
+      --navy2: #0a1628;
+      --blue: #112244;
+      --accent: #7eb8f7;
+      --silver: #c8d8f0;
+      --gold: #f0c060;
+      --white: #e8f0ff;
+      --glow: rgba(126,184,247,0.15);
+    }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--navy);
+      color: var(--white);
+      font-family: 'Raleway', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: default;
+    }
+ 
+    /* ── STAR CANVAS ── */
+    #stars {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+ 
+    /* ── MOON ── */
+    .moon {
+      position: fixed;
+      top: 6vh;
+      right: 8vw;
+      width: clamp(80px, 12vw, 130px);
+      height: clamp(80px, 12vw, 130px);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fffbe6, #f0d080 40%, #c8a840 100%);
+      box-shadow: 0 0 40px 10px rgba(240,192,96,0.25), 0 0 100px 30px rgba(240,192,96,0.1);
+      animation: moonGlow 4s ease-in-out infinite alternate;
+      z-index: 0;
+      pointer-events: none;
+    }
+ 
+    .moon::after {
+      content: '';
+      position: absolute;
+      top: 15%;
+      left: 55%;
+      width: 28%;
+      height: 28%;
+      border-radius: 50%;
+      background: rgba(180,140,40,0.3);
+      box-shadow: -8px 12px 0 rgba(180,140,40,0.2), 10px 25px 0 rgba(180,140,40,0.15);
+    }
+ 
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .hero-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.4s;
+    }
+ 
+    .hero-wish {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 3vw, 1.6rem);
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      color: var(--silver);
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.7s;
+    }
+ 
+    .hero-name {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(5rem, 20vw, 11rem);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      line-height: 0.95;
+      background: linear-gradient(180deg, #ffffff 0%, var(--accent) 50%, #4a8fd4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 30px rgba(126,184,247,0.4));
+      opacity: 0;
+      animation: fadeUp 1.2s ease forwards 1s;
+    }
+ 
+    .hero-moon-emoji {
+      font-size: clamp(1.5rem, 5vw, 2.5rem);
+      margin-top: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.3s;
+      letter-spacing: 0.3em;
+    }
+ 
+    .glow-line {
+      width: 120px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+      margin: 2rem auto;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.5s;
+      box-shadow: 0 0 8px var(--accent);
+    }
+ 
+    .hero-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.7s;
+    }
+ 
+    /* ── SCROLL HINT ── */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 2.2s;
+    }
+    .scroll-hint span {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.6;
+    }
+    .scroll-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: bounce 1.4s ease-in-out infinite;
+    }
+ 
+    /* ── PHOTOS ── */
+    .photos-section {
+      padding: 6rem 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .section-title {
+      text-align: center;
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1.1rem, 3vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+ 
+    .section-sub {
+      text-align: center;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--silver);
+      opacity: 0.5;
+      margin-bottom: 3rem;
+    }
+ 
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+ 
+    /* row 1: 3 photos | row 2: 3 photos | row 3: 1 wide photo */
+    .photo-slot:nth-child(7) {
+      grid-column: 1 / -1;
+      aspect-ratio: 16/6 !important;
+    }
+ 
+    .photo-slot {
+      aspect-ratio: 3/4;
+      border-radius: 12px;
+      background: linear-gradient(145deg, var(--navy2), var(--blue));
+      border: 1px solid rgba(126,184,247,0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      overflow: hidden;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+    }
+ 
+    .photo-slot::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(126,184,247,0.08), transparent 70%);
+      pointer-events: none;
+    }
+ 
+    .photo-slot:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(126,184,247,0.12), 0 0 0 1px rgba(126,184,247,0.4);
+      border-color: rgba(126,184,247,0.5);
+    }
+ 
+    .photo-slot img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      position: absolute; inset: 0;
+      border-radius: 11px;
+    }
+ 
+    .slot-icon { font-size: 1.8rem; opacity: 0.4; }
+    .slot-text {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.5;
+    }
+ 
+    /* ── MESSAGE ── */
+    .message-section {
+      padding: 4rem 2rem 8rem;
+      max-width: 660px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .msg-card {
+      background: linear-gradient(145deg, rgba(17,34,68,0.9), rgba(10,22,40,0.95));
+      border: 1px solid rgba(126,184,247,0.15);
+      border-radius: 24px;
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+ 
+    .msg-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--accent), transparent);
+      opacity: 0.5;
+    }
+ 
+    .msg-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(126,184,247,0.06), transparent);
+      pointer-events: none;
+    }
+ 
+    .msg-header {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+ 
+    .msg-body {
+      font-family: 'Raleway', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      line-height: 2;
+      color: var(--silver);
+      text-align: center;
+    }
+ 
+    .msg-body .highlight {
+      color: var(--gold);
+      font-weight: 400;
+    }
+ 
+    .msg-body .school {
+      color: var(--accent);
+      font-style: italic;
+    }
+ 
+    .signature {
+      margin-top: 2.5rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+    }
+ 
+    .sig-glow {
+      width: 60px; height: 1px;
+      background: linear-gradient(to right, transparent, var(--gold), transparent);
+      box-shadow: 0 0 6px var(--gold);
+    }
+ 
+    .sig-name {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+    }
+ 
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0.3;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(25px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes moonGlow {
+      from { box-shadow: 0 0 40px 10px rgba(240,192,96,0.2), 0 0 80px 20px rgba(240,192,96,0.08); }
+      to   { box-shadow: 0 0 60px 20px rgba(240,192,96,0.35), 0 0 120px 40px rgba(240,192,96,0.15); }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(8px); }
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.2; }
+    }
+ 
+    @media (max-width: 500px) {
+      .photo-grid { grid-template-columns: repeat(2, 1fr); }
+      .photo-slot:nth-child(7) { grid-column: 1 / -1; }
+      .msg-card { padding: 2rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+ 
+<canvas id="stars"></canvas>
+<div class="moon"></div>
+ 
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-tag">✦ &nbsp; A Celestial Celebration &nbsp; ✦</p>
+  <p class="hero-wish">Happy Birthday</p>
+  <h1 class="hero-name">Sana</h1>
+  <div class="hero-moon-emoji">🌙 ✨ 🌟</div>
+  <div class="glow-line"></div>
+  <p class="hero-date">15 · March · 2026</p>
+ 
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+ 
+<!-- PHOTOS -->
+<section class="photos-section">
+  <div class="section-title">Moments Under the Stars</div>
+  <div class="section-sub">tap to add a memory · 📸</div>
+  <div class="photo-grid">
+    <div class="photo-slot"><img src="photos/01.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/02.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/03.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/04.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/05.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/06.jpg" alt="memory"/></div>
+    <div class="photo-slot"><img src="photos/07.jpg" alt="memory"/></div>
+  </div>
+</section>
+ 
+<!-- MESSAGE -->
+<section class="message-section">
+  <div class="section-title" style="margin-bottom:0.6rem">A Message From the Stars</div>
+  <div class="section-sub" style="margin-bottom:2rem">written with love 💙</div>
+  <div class="msg-card">
+    <p class="msg-header">✦ &nbsp; To My Dearest Sister &nbsp; ✦</p>
+    <p class="msg-body">
+      <span class="school">Sainik School Imphal</span> is the reason
+      we met each other — and the stars must have planned it that way. 🌌<br/><br/>
+      Today is a <span class="highlight">marvelous day</span> of your life —
+      your birthday — so <span class="highlight">Very Happy Birthday</span> to you! 🎂🎈🎉<br/><br/>
+      Always be happy, always shine bright.<br/>
+      And never forget — your brother is right there at your back,
+      <span class="highlight">cheering the loudest</span> for you
+      and supporting you in everything. 😊<br/><br/>
+      <span class="highlight">Enjoy your life to the fullest, Sana. 🌙</span>
+    </p>
+    <div class="signature">
+      <div class="sig-glow"></div>
+      <p class="sig-name">— Your Brother, Ali 💙</p>
+    </div>
+  </div>
+</section>
+ 
+<footer>crafted with love · happy birthday sana · 🌙</footer>
+ 
+<script>
+  // ── STARFIELD ──
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+ 
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+ 
+  class Star {
+    constructor() { this.reset(true); }
+    reset(init = false) {
+      this.x = Math.random() * W;
+      this.y = init ? Math.random() * H : Math.random() * H;
+      this.r = Math.random() * 1.5 + 0.3;
+      this.baseAlpha = Math.random() * 0.8 + 0.2;
+      this.alpha = this.baseAlpha;
+      this.twinkleSpeed = Math.random() * 0.02 + 0.005;
+      this.twinkleDir = Math.random() > 0.5 ? 1 : -1;
+      this.drift = (Math.random() - 0.5) * 0.08;
+      this.color = Math.random() > 0.85 ? '#c8d8f0' : Math.random() > 0.7 ? '#f0d080' : '#ffffff';
+    }
+    update() {
+      this.alpha += this.twinkleSpeed * this.twinkleDir;
+      if (this.alpha > this.baseAlpha || this.alpha < 0.05) this.twinkleDir *= -1;
+      this.x += this.drift;
+      if (this.x < 0 || this.x > W) this.drift *= -1;
+    }
+    draw() {
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle = this.color;
+      ctx.shadowBlur = this.r > 1.2 ? 6 : 0;
+      ctx.shadowColor = this.color;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+ 
+  // Shooting stars
+  class ShootingStar {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W * 0.6;
+      this.y = Math.random() * H * 0.4;
+      this.len = Math.random() * 120 + 60;
+      this.speed = Math.random() * 8 + 6;
+      this.alpha = 0;
+      this.active = false;
+      this.timer = Math.random() * 300 + 100;
+    }
+    update() {
+      if (!this.active) {
+        this.timer--;
+        if (this.timer <= 0) { this.active = true; this.alpha = 1; }
+        return;
+      }
+      this.x += this.speed;
+      this.y += this.speed * 0.5;
+      this.alpha -= 0.04;
+      if (this.alpha <= 0) this.reset();
+    }
+    draw() {
+      if (!this.active) return;
+      ctx.save();
+      ctx.globalAlpha = this.alpha;
+      const grad = ctx.createLinearGradient(this.x, this.y, this.x - this.len, this.y - this.len * 0.5);
+      grad.addColorStop(0, '#ffffff');
+      grad.addColorStop(1, 'transparent');
+      ctx.strokeStyle = grad;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(this.x - this.len, this.y - this.len * 0.5);
+      ctx.stroke();
+      ctx.restore();
+    }
+  }
+ 
+  for (let i = 0; i < 200; i++) stars.push(new Star());
+  const shooters = [new ShootingStar(), new ShootingStar(), new ShootingStar()];
+ 
+  function animate() {
+    ctx.clearRect(0, 0, W, H);
+    stars.forEach(s => { s.update(); s.draw(); });
+    shooters.forEach(s => { s.update(); s.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+ 
+  // ── PHOTO UPLOAD ──
+  document.querySelectorAll('.photo-slot').forEach(slot => {
+    slot.addEventListener('click', () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          slot.innerHTML = `<img src="${ev.target.result}" alt="memory"/>`;
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    });
+  });
+ 
+  // ── SCROLL FADE IN ──
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.transition = 'opacity 0.9s ease, transform 0.9s ease';
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+ 
+  document.querySelectorAll('.photo-slot, .msg-card').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
